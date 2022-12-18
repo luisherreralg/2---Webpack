@@ -1,5 +1,6 @@
 import "./style.css";
 import * as THREE from "three";
+import gsap from "gsap";
 
 /**
  * * -------------------- SCENE --------------------
@@ -74,4 +75,38 @@ const renderer = new THREE.WebGLRenderer({
 // Para que tenga el tamaño que queremos
 renderer.setSize(sizes.width, sizes.height);
 
-renderer.render(scene, camera);
+/**
+ * * -------------------- ANIMATIONS --------------------
+ */
+
+gsap.to(group.position, {
+  duration: 1,
+  delay: 1,
+  x: 2,
+});
+gsap.to(group.position, {
+  duration: 1,
+  delay: 2,
+  x: 0,
+});
+
+// Clock
+// const clock = new THREE.Clock();
+
+const tick = () => {
+  //   // Clock
+  //   const elapsedTime = clock.getElapsedTime();
+
+  //   // Update Object
+  //   group.rotation.x = elapsedTime * Math.PI * 2;
+  //   group.rotation.y = elapsedTime * Math.PI * 2;
+  //   group.position.y = Math.sin(elapsedTime);
+  //   group.position.x = Math.cos(elapsedTime);
+
+  // Render
+  renderer.render(scene, camera);
+
+  // De esta manera llamamos a la función por cada frame de la pantalla
+  window.requestAnimationFrame(tick);
+};
+tick();

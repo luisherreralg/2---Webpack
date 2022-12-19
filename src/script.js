@@ -57,7 +57,7 @@ gui.add(group.position, "x").min(-3).max(3).step(0.01).name("Eje X");
 gui.add(group.position, "z").min(-3).max(3).step(0.01).name("Eje Z");
 gui.add(group, "visible");
 
-const cube1 = new THREE.Mesh(
+let cube1 = new THREE.Mesh(
   new THREE.BoxGeometry(1, 1, 1),
   new THREE.MeshBasicMaterial({
     color: "green",
@@ -123,24 +123,25 @@ window.addEventListener("resize", () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
 
-window.addEventListener("dblclick", () => {
-  const fullscreenElement =
-    document.fullscreenElement || document.webkitFullscreenElement;
+// ? Double click function
+// window.addEventListener("dblclick", () => {
+//   const fullscreenElement =
+//     document.fullscreenElement || document.webkitFullscreenElement;
 
-  if (!fullscreenElement) {
-    if (canvas.requestFullscreen) {
-      canvas.requestFullscreen();
-    } else if (canvas.webkitRequestFullscreen) {
-      canvas.webkitRequestFullscreen();
-    }
-  } else {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    }
-  }
-});
+//   if (!fullscreenElement) {
+//     if (canvas.requestFullscreen) {
+//       canvas.requestFullscreen();
+//     } else if (canvas.webkitRequestFullscreen) {
+//       canvas.webkitRequestFullscreen();
+//     }
+//   } else {
+//     if (document.exitFullscreen) {
+//       document.exitFullscreen();
+//     } else if (document.webkitExitFullscreen) {
+//       document.webkitExitFullscreen();
+//     }
+//   }
+// });
 
 /**
  * * -------------------- CAMERA --------------------
@@ -151,7 +152,7 @@ const near = 0.1;
 const far = 100;
 const camera = new THREE.PerspectiveCamera(fov, aspectRatio, near, far);
 
-// Ortographic camera settings
+// ? Ortographic camera settings
 // const left = -1 * aspectRatio;
 // const right = 1 * aspectRatio;
 // const top = 1;

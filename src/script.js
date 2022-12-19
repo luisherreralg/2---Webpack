@@ -5,6 +5,50 @@ import gsap from "gsap";
 import * as lil from "lil-gui";
 
 /**
+ * *  -------------------- TEXTURES --------------------
+ */
+const loadingManager = new THREE.LoadingManager();
+loadingManager.onStart = () => {
+  console.log("onStart");
+};
+loadingManager.onLoad = () => {
+  console.log("onLoad");
+};
+loadingManager.onProgress = () => {
+  console.log("onProgress");
+};
+loadingManager.onError = () => {
+  console.log("onError");
+};
+const textureLoader = new THREE.TextureLoader(loadingManager);
+const colorTexture = textureLoader.load("/Door_Wood_001_basecolor.jpg");
+const normalTexture = textureLoader.load("/Door_Wood_001_normal.jpg");
+const roughnessTexture = textureLoader.load("/Door_Wood_001_roughness.jpg");
+const heightTexture = textureLoader.load("/Door_Wood_001_height.png");
+const ambientOcclusionTexture = textureLoader.load(
+  "/Door_Wood_001_ambientOcclusion.jpg"
+);
+const metallicTexture = textureLoader.load("/Door_Wood_001_metallic.jpg");
+
+// colorTexture.wrapS = THREE.RepeatWrapping;
+// colorTexture.wrapT = THREE.RepeatWrapping;
+
+// colorTexture.wrapS = THREE.MirroredRepeatWrapping;
+// colorTexture.wrapT = THREE.MirroredRepeatWrapping;
+
+// colorTexture.offset.x = 0.5;
+// colorTexture.offset.y = 0.5;
+
+// colorTexture.rotation = Math.PI / 4;
+// colorTexture.center.x = 0.5;
+// colorTexture.center.y = 0.5;
+
+// MinFilter & MagFilter
+colorTexture.generateMipmaps = false;
+colorTexture.minFilter = THREE.NearestFilter;
+colorTexture.magFilter = THREE.NearestFilter;
+
+/**
  * * -------------------- DEBUG --------------------
  */
 const gui = new lil.GUI({ closed: true, width: 400 });
@@ -60,7 +104,7 @@ gui.add(group, "visible");
 let cube1 = new THREE.Mesh(
   new THREE.BoxGeometry(1, 1, 1),
   new THREE.MeshBasicMaterial({
-    color: "green",
+    map: colorTexture,
   })
 );
 group.add(cube1);

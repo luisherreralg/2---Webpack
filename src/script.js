@@ -35,9 +35,11 @@ const group = new THREE.Group();
 scene.add(group);
 
 const cube1 = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
+  // new THREE.BoxGeometry(1, 1, 1),
+  new THREE.BoxGeometry(1, 1, 1, 4, 4, 4),
   new THREE.MeshBasicMaterial({
     color: 0xff0000,
+    wireframe: true,
   })
 );
 group.add(cube1);
@@ -68,9 +70,42 @@ group.add(cube1);
  * * -------------------- SIZES --------------------
  */
 const sizes = {
-  width: 800,
-  height: 600,
+  width: window.innerWidth,
+  height: window.innerHeight,
 };
+
+window.addEventListener("resize", () => {
+  // Update Sizes
+  sizes.width = window.innerWidth;
+  sizes.height = window.innerHeight;
+
+  // Update Camera
+  camera.aspect = sizes.width / sizes.height;
+  camera.updateProjectionMatrix();
+
+  // Update renderer
+  renderer.setSize(sizes.width, sizes.height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+});
+
+window.addEventListener("dblclick", () => {
+  const fullscreenElement =
+    document.fullscreenElement || document.webkitFullscreenElement;
+
+  if (!fullscreenElement) {
+    if (canvas.requestFullscreen) {
+      canvas.requestFullscreen();
+    } else if (canvas.webkitRequestFullscreen) {
+      canvas.webkitRequestFullscreen();
+    }
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    }
+  }
+});
 
 /**
  * * -------------------- CAMERA --------------------
@@ -114,6 +149,7 @@ const renderer = new THREE.WebGLRenderer({
 
 // Para que tenga el tamaño que queremos
 renderer.setSize(sizes.width, sizes.height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 /**
  * * -------------------- ANIMATIONS --------------------

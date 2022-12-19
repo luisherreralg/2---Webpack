@@ -1,9 +1,26 @@
 import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import gsap from "gsap";
+import * as lil from "lil-gui";
 
 /**
- * * CURSOR
+ * * -------------------- DEBUG --------------------
+ */
+const gui = new lil.GUI({ closed: true, width: 400 });
+gui.hide();
+window.addEventListener("keydown", (event) => {
+  if (event.key === "h") {
+    if (gui._hidden) {
+      gui.show();
+    } else {
+      gui.hide();
+    }
+  }
+});
+
+/**
+ * * -------------------- CURSOR --------------------
  */
 const cursor = {
   x: 0,
@@ -34,15 +51,33 @@ const group = new THREE.Group();
 // group.rotation.y = 1;
 scene.add(group);
 
+// Debug
+gui.add(group.position, "y").min(-3).max(3).step(0.01).name("Eje Y");
+gui.add(group.position, "x").min(-3).max(3).step(0.01).name("Eje X");
+gui.add(group.position, "z").min(-3).max(3).step(0.01).name("Eje Z");
+gui.add(group, "visible");
+
 const cube1 = new THREE.Mesh(
-  // new THREE.BoxGeometry(1, 1, 1),
-  new THREE.BoxGeometry(1, 1, 1, 4, 4, 4),
+  new THREE.BoxGeometry(1, 1, 1),
   new THREE.MeshBasicMaterial({
-    color: 0xff0000,
-    wireframe: true,
+    color: "green",
   })
 );
 group.add(cube1);
+
+// Debug Cube1
+gui.add(cube1.material, "wireframe").name("Cube1 Wireframe");
+gui.addColor(cube1.material, "color").name("Cube1 Color");
+
+const parameters = {
+  spin: () => {
+    gsap.to(cube1.rotation, {
+      duration: 1,
+      y: cube1.rotation.y + 10,
+    });
+  },
+};
+gui.add(parameters, "spin");
 
 // const cube2 = new THREE.Mesh(
 //   new THREE.BoxGeometry(1, 1, 1),
